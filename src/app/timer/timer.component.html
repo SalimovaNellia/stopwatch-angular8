@@ -1,9 +1,9 @@
 <div class="timer">
   <section class="timer__counter">
-    <div> 00:00:00 </div>
+    <div> {{counter}} </div>
   </section>
   <section class="timer__button-container">
-    <button class="timer__button" (click)="startTimer()">Start/Stop</button>
+    <button class="timer__button" (click)="startTimer()">{{startText}}</button>
     <button class="timer__button" (click)="pauseTimer()">Wait</button>
     <button class="timer__button" (click)="clearTimer()">Reset</button>
   </section>
