@@ -1,10 +1,12 @@
 <div class="timer">
   <section class="timer__counter">
-    <div> {{counter}} </div>
+    <div> {{hours < 10 ? "0"+hours : hours}}:{{minutes < 10 ? "0"+ minutes : minutes}}:{{seconds < 10 ? "0"+ seconds : seconds}} </div>
   </section>
   <section class="timer__button-container">
-    <button class="timer__button" (click)="startTimer()">{{startText}}</button>
+    <button class="timer__button" *ngIf="!running" (click)="startTimer()">Start</button>
+    <button class="timer__button" *ngIf="running" (click)="stopTimer()">Stop</button>
+
     <button class="timer__button" (click)="pauseTimer()">Wait</button>
-    <button class="timer__button" (click)="clearTimer()">Reset</button>
+    <button class="timer__button" (click)="resetTimer()">Reset</button>
   </section>
 </div>
