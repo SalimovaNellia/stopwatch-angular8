@@ -6,7 +6,7 @@
     <button class="timer__button" *ngIf="!running" (click)="startTimer()">Start</button>
     <button class="timer__button" *ngIf="running" (click)="stopTimer()">Stop</button>
 
-    <button class="timer__button" (click)="pauseTimer()">Wait</button>
+    <button class="timer__button" #pauseBtn>Wait</button>
     <button class="timer__button" (click)="resetTimer()">Reset</button>
   </section>
 </div>

@@ -1,18 +1,21 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import Timer = NodeJS.Timer;
-import {Observable, interval, timer, Subscription} from 'rxjs';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Observable, timer, Subscription, fromEvent} from 'rxjs';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.scss']
 })
-export class TimerComponent implements OnInit, OnDestroy {
+export class TimerComponent implements OnInit, OnDestroy, AfterViewInit {
+
+  @ViewChild('pauseBtn', {static: false}) pauseBtn: ElementRef;
 
   public running: boolean = false;
   timer$: Observable<number>;
   timerSubscription: Subscription;
   counter: number = 0;
+  previousClick: number = 0;
 
   hours: number;
   minutes: number;
@@ -20,10 +23,25 @@ export class TimerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.millisecondsToTime(this.counter);
-    this.timer$ = timer(1000,1000);
+    this.timer$ = timer(1000, 1000);
+  }
+
+  ngAfterViewInit(): void {
+    fromEvent(this.pauseBtn.nativeElement, 'click')
+      .pipe(
+        tap(() => {
+          let newClick = Date.now();
+          if (newClick - this.previousClick < 300) {
+            this.pauseTimer();
+          } else {
+            this.previousClick = newClick;
+          }
+        })
+      ).subscribe();
   }
 
   ngOnDestroy(): void {
+    this.timerSubscription.unsubscribe();
   }
 
   startTimer(): void {
@@ -36,7 +54,7 @@ export class TimerComponent implements OnInit, OnDestroy {
 
   pauseTimer(): void {
     this.running = false;
-    if(this.timerSubscription) {
+    if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
     }
     this.millisecondsToTime(this.counter);
@@ -50,7 +68,7 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   resetTimer(): void {
-    if(this.timerSubscription) {
+    if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
       this.counter = 0;
       this.millisecondsToTime(this.counter);
