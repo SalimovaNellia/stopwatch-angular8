@@ -1,0 +1,42 @@
+.timer {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: monospace;
+
+    &__counter {
+      display: flex;
+      align-items: center;
+      font-size: 10em;
+      margin-bottom: 0.5em;
+      margin-top: 1em;
+    }
+
+    &__button-container {
+      display: flex;
+    }
+
+    &__button {
+      border-radius: 5px;
+      background: #4050B5;
+      color: #fff;
+      border: 1px solid #DCDCDC;
+      font-size: 2em;
+      padding: 10px;
+      margin: 5px 10px;
+      min-width: 150px;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        background-color: #fff;
+        color: #4050B5;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+}
+
